@@ -11,14 +11,14 @@ before_install:
   - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
 
 script:
-  - docker build -t pram/docker_client ./frontend_heroku;
-  - docker tag pram/docker_client registry.heroku.com/$HEROKU_APP_NAME/web;
+  - docker build -t pram25/docker_client ./frontend_heroku;
+  - docker tag pram25/docker_client registry.heroku.com/$HEROKU_APP_NAME/web;
 
 deploy:
   provider: script
   script: 
     # push to dockerhub & heroku 
-    docker push pram/docker_client;
+    docker push pram25/docker_client;
     docker push registry.heroku.com/$HEROKU_APP_NAME/web;
     heroku container:release web --app $HEROKU_APP_NAME;
   on: 
