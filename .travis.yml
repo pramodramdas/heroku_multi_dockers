@@ -10,7 +10,7 @@ before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
 
-after_success:
+script:
   - docker build -t pram/docker_client ./frontend_heroku
   - docker tag pram/docker_client registry.heroku.com/$HEROKU_APP_NAME/web
 
