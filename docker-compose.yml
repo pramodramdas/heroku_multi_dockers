@@ -1,0 +1,25 @@
+version: '3'
+services:
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx_heroku
+    ports:
+      - '8010:8010'
+  backend:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./backend_heroku
+    ports:
+      - '9090:9090'
+    volumes:
+      - /app/node_modules
+  client:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./frontend_heroku
+    ports:
+      - '3000:3000'
+    volumes:
+      - /app/node_modules
