@@ -12,7 +12,11 @@ before_install:
 
 script:
   - docker build -t pram25/docker_client ./frontend_heroku;
-  - docker tag pram25/docker_client registry.heroku.com/$HEROKU_APP_NAME/web;
+  - docker tag pram25/docker_client registry.heroku.com/$HEROKU_APP_CLIENT/web;
+  - docker build -t pram25/docker_backend ./backend_heroku;
+  - docker tag pram25/docker_backend registry.heroku.com/$HEROKU_APP_BACKEND/web;
+  - docker build -t pram25/docker_nginx ./nginx_heroku;
+  - docker tag pram25/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web;
 
 deploy:
   provider: script
@@ -21,5 +25,11 @@ deploy:
     docker push pram25/docker_client;
     docker push registry.heroku.com/$HEROKU_APP_NAME/web;
     heroku container:release web --app $HEROKU_APP_NAME;
+    docker push pram25/docker_backend;
+    docker push registry.heroku.com/$HEROKU_APP_BACKEND/web;
+    heroku container:release web --app $HEROKU_APP_BACKEND;
+    docker push pram25/docker_nginx;
+    docker push registry.heroku.com/$HEROKU_APP_NGINX/web;
+    heroku container:release web --app $HEROKU_APP_NGINX;
   on: 
     branch: master
