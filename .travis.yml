@@ -23,8 +23,8 @@ deploy:
   script: 
     # push to dockerhub & heroku 
     docker push pram25/docker_client;
-    docker push registry.heroku.com/$HEROKU_APP_NAME/web;
-    heroku container:release web --app $HEROKU_APP_NAME;
+    docker push registry.heroku.com/$HEROKU_APP_CLIENT/web;
+    heroku container:release web --app $HEROKU_APP_CLIENT;
     docker push pram25/docker_backend;
     docker push registry.heroku.com/$HEROKU_APP_BACKEND/web;
     heroku container:release web --app $HEROKU_APP_BACKEND;
