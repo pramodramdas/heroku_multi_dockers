@@ -11,24 +11,24 @@ before_install:
   - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
 
 script:
-  - docker build -t pram25/docker_client ./frontend_heroku;
-  - docker tag pram25/docker_client registry.heroku.com/$HEROKU_APP_CLIENT/web;
-  - docker build -t pram25/docker_backend ./backend_heroku;
-  - docker tag pram25/docker_backend registry.heroku.com/$HEROKU_APP_BACKEND/web;
-  - docker build -t pram25/docker_nginx ./nginx_heroku;
-  - docker tag pram25/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web;
+  - docker build -t $DOCKER_USERNAME/docker_client ./frontend_heroku;
+  - docker tag $DOCKER_USERNAME/docker_client registry.heroku.com/$HEROKU_APP_CLIENT/web;
+  - docker build -t $DOCKER_USERNAME/docker_backend ./backend_heroku;
+  - docker tag $DOCKER_USERNAME/docker_backend registry.heroku.com/$HEROKU_APP_BACKEND/web;
+  - docker build -t $DOCKER_USERNAME/docker_nginx ./nginx_heroku;
+  - docker tag $DOCKER_USERNAME/docker_nginx registry.heroku.com/$HEROKU_APP_NGINX/web;
 
 deploy:
   provider: script
   script: 
     # push to dockerhub & heroku 
-    docker push pram25/docker_client;
+    docker push $DOCKER_USERNAME/docker_client;
     docker push registry.heroku.com/$HEROKU_APP_CLIENT/web;
     heroku container:release web --app $HEROKU_APP_CLIENT;
-    docker push pram25/docker_backend;
+    docker push $DOCKER_USERNAME/docker_backend;
     docker push registry.heroku.com/$HEROKU_APP_BACKEND/web;
     heroku container:release web --app $HEROKU_APP_BACKEND;
-    docker push pram25/docker_nginx;
+    docker push $DOCKER_USERNAME/docker_nginx;
     docker push registry.heroku.com/$HEROKU_APP_NGINX/web;
     heroku container:release web --app $HEROKU_APP_NGINX;
   on: 
